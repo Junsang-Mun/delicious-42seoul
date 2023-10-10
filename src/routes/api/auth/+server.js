@@ -1,4 +1,4 @@
-import { text, error, json } from '@sveltejs/kit';
+import { text, error } from '@sveltejs/kit';
 import env from 'dotenv'
 
 env.config();
