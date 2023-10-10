@@ -4,7 +4,7 @@
 	const code = $page.url.searchParams.get('code');
 
 	onMount(async () => {
-		if (code === undefined) {
+		if (code === undefined || code === '' || code === null) {
 			alert('No valid code value, returning to main page');
 			window.location.href = '/';
 		}
@@ -19,9 +19,18 @@
 				code: code
 			})
 		}).then((response) => {
-			response.json();
+			if (response.status !== 200) {
+				alert('42 API와 통신 중 에러 발생. 끔찍하군요!');
+				window.location.href = '/';
+			}
+			return response.json();
 		}).then((data) => {
-			console.log(data);
+			localStorage.setItem('access_token', data.access_token);
+			localStorage.setItem('expires_in', data.expires_in);
+			localStorage.setItem('set_time', new Date().getTime() / 1000);
+			window.location.href = '/main'
+		}).catch((error) => {
+			console.error('Error:', error);
 		});
 	});
 </script>

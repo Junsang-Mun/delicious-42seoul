@@ -1,4 +1,4 @@
-import { json, text } from '@sveltejs/kit';
+import { text, error, json } from '@sveltejs/kit';
 import env from 'dotenv'
 
 env.config();
@@ -7,28 +7,46 @@ export async function POST({ request }) {
 	const { code } = await request.json();
 	const client = process.env.UID_42;
 	const secret = process.env.SEC_42;
-	fetch('https://api.intra.42.fr/oauth/token', {
-		method: 'POST',
-		mode: 'no-cors',
-		cache: 'no-cache',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			grant_type:'client_credentials',
-			client_id: client,
-			client_secret: secret,
-			code: code,
-		})
-	}).then((response) => {
-		response.json();
-	}).then((data) => {
-		console.log(data);
+	const r_url = process.env.R_URL;
+	const payload = new URLSearchParams({
+		grant_type: 'authorization_code',
+		client_id: client,
+		client_secret: secret,
+		code: code,
+		redirect_uri: r_url,
 	});
-	return json(code);
-	// return json(code);
+
+	try {
+		const response = await fetch(`https://api.intra.42.fr/oauth/token?${payload}`, {
+			method: 'POST',
+			body: payload,
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+		});
+
+		if (response.status !== 200) {
+			throw new Error(`Response status: ${response.status}`);
+		}
+
+		const data = await response.json();
+		console.log(data);
+		return new Response(JSON.stringify({
+				'access_token': data.access_token,
+				'expires_in': data.expires_in,
+				'jokebear': 'cute',
+			}), {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			status: 200
+		});
+
+	} catch (e) {
+		throw error(500, 'Server-side Error');
+	}
 }
 
-export async function fallback({ request }) {
-	return text(`${request.method} is not allowed!`);
+export async function fallback() {
+	return text(':jokebear:');
 }
