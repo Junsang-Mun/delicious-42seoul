@@ -24,7 +24,7 @@ export async function POST({ request }) {
 		// console.log(await response.json());
 		if (response.status === 200 || response.status === 201) {
 			const data = await response.json();
-			return new Response(data);
+			return new Response(JSON.stringify(data));
 		}
 		throw error(500, 'Internal Database Error');
 

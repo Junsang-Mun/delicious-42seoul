@@ -5,7 +5,7 @@
 	let rLocation;
 	let rData;
 
-	onMount(async() => {
+	function whoAmI() {
 		fetch('/api/whoami', {
 			method: 'POST',
 			mode: 'cors',
@@ -29,6 +29,9 @@
 		}).catch((error) => {
 			console.error('Error:', error);
 		});
+	}
+
+	function lookUp() {
 		fetch('/api/lookup', {
 			method: 'POST',
 			mode: 'cors',
@@ -46,7 +49,7 @@
 			else {
 				console.error(`response status ${response.status}`);
 				console.warn(response);
-				window.location.href = '/404';
+				window.location.href = '/';
 			}
 		}).then((data) => {
 			rData = data;
@@ -54,6 +57,16 @@
 		}).catch((error) => {
 			console.error('Error:', error);
 		});
+	}
+
+	function onLocationChange(event) {
+		rLocation = event.target.value;
+		lookUp();
+	}
+
+	onMount(async() => {
+		whoAmI();
+		lookUp();
 	});
 </script>
 
@@ -62,22 +75,17 @@
 	<h1 class="title">맛있는 42서울</h1>
 	<div class="row">
 		클러스터 위치
-		<select class="card w-100" bind:value={rLocation}>
+		<select class="card w-90" bind:value={rLocation} on:change={onLocationChange}>
 			<option value="gaepo">개포</option>
 			<option value="gaepo-takeout">개포(포장)</option>
 			<option value="gaepo-deliver">개포(배달)</option>
 			<option value="seocho">서초</option>
 		</select>
 	</div>
-	<div>
-		<Card title="광수육회" description="맛있는육회" key="asdf"/>
-		<Card title="수황태콩나물국밥" description="맛잇는국밥" key="asdf"/>
-	</div>
-	<div>
-		<Card title="우리생고기" description="생고기맛잇어" key="asdf"/>
-		<Card title="장독묵은지" description="묵은지맛잇어" key="asdf"/>
-	</div>
-	<button class="btn primary floating" on:click={() => { window.location.href = '/new' }}>+</button>
+	{#each rData.items as d}
+		<Card title={d.name} description={d.summary} key={d.contributor} detail={d.detail}/>
+	{/each}
+	<button class="btn primary floating" on:click={() => { window.location.href = '/new' }}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="40" y1="128" x2="216" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/><line x1="128" y1="40" x2="128" y2="216" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="24"/></svg></button>
 </div>
 {:else}
 <div class="c">
@@ -87,13 +95,15 @@
 
 <style>
 	.floating {
-		width: 3em;
-		height: 3em;
-		border-radius: 1.5em;
-		font-size: 2rem;
+		width: 7em;
+		height: 7em;
+		border-radius: 7em;
 		line-height: 0;
 		position: fixed;
 		bottom: 2em;
 		right: 2em
+	}
+	svg {
+		top: 50%;
 	}
 </style>
