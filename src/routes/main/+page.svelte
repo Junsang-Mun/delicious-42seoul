@@ -41,7 +41,7 @@
 		<Card title="우리생고기" description="생고기맛잇어" key="asdf"/>
 		<Card title="장독묵은지" description="묵은지맛잇어" key="asdf"/>
 	</div>
-	<button class="btn primary floating">+</button>
+	<button class="btn primary floating" on:click={() => { window.location.href = '/new' }}>+</button>
 </div>
 {:else}
 <div class="c">
