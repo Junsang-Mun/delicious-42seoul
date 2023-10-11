@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	let userName, rLocation, rName, rData;
+	let userName, rLocation, rName, rSummary, rData;
 
 	async function addRecord() {
 		fetch('/api/database', {
@@ -14,6 +14,7 @@
 				'contributor': userName,
 				'name': rName,
 				'cluster': rLocation,
+				'summary': rSummary,
 				'detail': rData,
 			}),
 		}).then((r) => {
@@ -83,7 +84,7 @@
 	</div>
 	<div class="row">
 		한줄평
-		<input class="card w-100" bind:value={rName}>
+		<input class="card w-100" bind:value={rSummary}>
 	</div>
 	<div class="row">
 		정보

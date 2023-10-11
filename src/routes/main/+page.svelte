@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import Card from './card.svelte';
 	let userName;
+	let rLocation;
+	let rData;
 
 	onMount(async() => {
 		fetch('/api/whoami', {
@@ -27,12 +29,46 @@
 		}).catch((error) => {
 			console.error('Error:', error);
 		});
+		fetch('/api/lookup', {
+			method: 'POST',
+			mode: 'cors',
+			cache: 'no-cache',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'cluster': rLocation,
+			})
+		}).then((response) => {
+			if (response.status === 200 || response.status === 201) {
+				return response.json();
+			}
+			else {
+				console.error(`response status ${response.status}`);
+				console.warn(response);
+				window.location.href = '/404';
+			}
+		}).then((data) => {
+			rData = data;
+			console.log(rData);
+		}).catch((error) => {
+			console.error('Error:', error);
+		});
 	});
 </script>
 
 {#if userName}
 <div class="c">
 	<h1 class="title">맛있는 42서울</h1>
+	<div class="row">
+		클러스터 위치
+		<select class="card w-100" bind:value={rLocation}>
+			<option value="gaepo">개포</option>
+			<option value="gaepo-takeout">개포(포장)</option>
+			<option value="gaepo-deliver">개포(배달)</option>
+			<option value="seocho">서초</option>
+		</select>
+	</div>
 	<div>
 		<Card title="광수육회" description="맛있는육회" key="asdf"/>
 		<Card title="수황태콩나물국밥" description="맛잇는국밥" key="asdf"/>
