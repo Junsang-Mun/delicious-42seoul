@@ -2,10 +2,10 @@
 	export let title;
 	export let description;
 	export let key;
-	export let detail;
+	export let contributor;
 
 	function showMeDetail() {
-		alert(detail);
+		window.location.href = `/detail/${key}`;
 	}
 </script>
 
@@ -14,7 +14,7 @@
 	<p>{description}</p>
 	<button class="btn primary" on:click={() => {showMeDetail()}}>정보 보기</button>
 	<button class="btn">길 안내</button>
-	<p>{key}</p>
+	<p>{contributor}</p>
 </div>
 
 <style>

@@ -84,7 +84,7 @@
 	{#each rData.items as d}
 		{#if d.cluster == rLocation}
 		<div class="row">
-			<Card title={d.name} description={d.summary} key={d.contributor} detail={d.detail}/>
+			<Card title={d.name} description={d.summary} key={d.key} contributor={d.contributor}/>
 		</div>
 		{/if}
 	{/each}
