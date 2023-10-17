@@ -8,15 +8,15 @@ export async function POST({ request }) {
 	const client = process.env.UID_42;
 	const secret = process.env.SEC_42;
 	const r_url = process.env.R_URL;
-	const payload = new URLSearchParams({
-		grant_type: 'authorization_code',
-		client_id: client,
-		client_secret: secret,
-		code: code,
-		redirect_uri: r_url,
-	});
 
 	try {
+		const payload = new URLSearchParams({
+			grant_type: 'authorization_code',
+			client_id: client,
+			client_secret: secret,
+			code: code,
+			redirect_uri: r_url,
+		});
 		const response = await fetch(`https://api.intra.42.fr/oauth/token?${payload}`, {
 			method: 'POST',
 			body: payload,
@@ -43,7 +43,7 @@ export async function POST({ request }) {
 		});
 
 	} catch (e) {
-		throw error(500, 'Server-side Error');
+		throw error(500, `Server-side Error`);
 	}
 }
 

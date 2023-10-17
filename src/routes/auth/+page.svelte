@@ -20,7 +20,7 @@
 			})
 		}).then((response) => {
 			if (response.status !== 200) {
-				alert('42 API와 통신 중 에러 발생. 끔찍하군요!');
+				alert(`42 API와 통신 중 ${response.status} 에러 발생. 끔찍하군요!`);
 				window.location.href = '/';
 			}
 			return response.json();

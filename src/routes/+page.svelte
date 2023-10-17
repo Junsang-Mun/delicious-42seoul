@@ -1,7 +1,9 @@
 <script>
+	const rurl = import.meta.env.VITE_R_URL;
+	const uid = import.meta.env.VITE_UID_42;
 	let userCount = 42;
 	const clickLogin = () => {
-		window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-e7d3e69db5846309b09f9d93d4d787276306cb3f0f0e8bef5010f33155ac756b&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fauth&response_type=code";
+		window.location.href = `https://api.intra.42.fr/oauth/authorize?client_id=${uid}&redirect_uri=${rurl}&response_type=code`;
 	}
 </script>
 
