@@ -10,7 +10,6 @@
 </script>
 
 <div class="card col">
-	<img src="https://picsum.photos/500/900/?random" class="w-100">
 	<h4>{title}</h4>
 	<p>{description}</p>
 	<button class="btn primary" on:click={() => {showMeDetail()}}>정보 보기</button>
@@ -19,9 +18,7 @@
 </div>
 
 <style>
-	img {
-		width: 400px;
-		height: 300px;
-		object-fit: cover;
+	.card {
+		width: 30em;
 	}
 </style>
