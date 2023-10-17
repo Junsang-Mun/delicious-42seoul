@@ -77,7 +77,6 @@
 		클러스터 위치
 		<select class="card w-90" bind:value={rLocation} on:change={onLocationChange}>
 			<option value="gaepo">개포</option>
-			<option value="gaepo-takeout">개포(포장)</option>
 			<option value="gaepo-deliver">개포(배달)</option>
 			<option value="seocho">서초</option>
 		</select>
