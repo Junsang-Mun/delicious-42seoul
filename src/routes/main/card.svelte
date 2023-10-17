@@ -19,6 +19,6 @@
 
 <style>
 	.card {
-		width: 30em;
+		width: 100%;
 	}
 </style>
