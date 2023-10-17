@@ -1,13 +1,13 @@
 import { text, error } from '@sveltejs/kit';
-import env from 'dotenv'
+// import env from 'dotenv'
 
-env.config();
+// env.config();
 
 export async function POST({ request }) {
 	const { code } = await request.json();
-	const client = process.env.UID_42;
-	const secret = process.env.SEC_42;
-	const r_url = process.env.R_URL;
+	const client = import.meta.env.VITE_UID_42;
+	const secret = import.meta.env.VITE_SEC_42;
+	const r_url = import.meta.env.VITE_R_URL;
 
 	try {
 		const payload = new URLSearchParams({
@@ -17,6 +17,7 @@ export async function POST({ request }) {
 			code: code,
 			redirect_uri: r_url,
 		});
+		console.log(payload);
 		const response = await fetch(`https://api.intra.42.fr/oauth/token?${payload}`, {
 			method: 'POST',
 			body: payload,

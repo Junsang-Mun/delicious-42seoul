@@ -1,12 +1,9 @@
 import { text, error } from '@sveltejs/kit';
-import env from 'dotenv'
-
-env.config();
 
 export async function POST({ request }) {
 	const { cluster } = await request.json();
-	const url = process.env.DB_URL;
-	const apiKey = process.env.DB_API_KEY;
+	const url = import.meta.env.VITE_DB_URL;
+	const apiKey = import.meta.env.VITE_DB_API_KEY;
 
 	try {
 		const response = await fetch(`${url}/query`, {

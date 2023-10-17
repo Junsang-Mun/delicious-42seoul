@@ -1,7 +1,4 @@
 import { text, error } from '@sveltejs/kit';
-import env from 'dotenv'
-
-env.config();
 
 export async function POST({ request }) {
 	const { access_token } = await request.json();
