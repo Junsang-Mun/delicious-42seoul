@@ -3,6 +3,10 @@
 	let userName, rLocation, rName, rSummary, rData;
 
 	async function addRecord() {
+		if (rLocation === undefined || rName === undefined || rSummary === undefined || rData === undefined) {
+			alert('모든 정보를 입력해주세요.');
+			return;
+		}
 		fetch('/api/database', {
 			method: 'POST',
 			mode: 'cors',

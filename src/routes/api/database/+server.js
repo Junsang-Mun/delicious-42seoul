@@ -4,6 +4,8 @@ export async function POST({ request }) {
 	const { contributor, name, cluster, summary, detail } = await request.json();
 	const url = import.meta.env.VITE_DB_URL;
 	const apiKey = import.meta.env.VITE_DB_API_KEY;
+	if (!contributor || !name || !cluster || !summary || !detail)
+		return error(400, 'Bad Request');
 
 	fetch(`${url}/items`, {
 		method: 'POST',
